@@ -7,7 +7,8 @@ result = data
   splits = String.codepoints(ticket)
 
   rows = for x <- 0..127, do: x
-  row = Enum.slice(splits, 0..6) |> Enum.reduce(rows, fn split, acc ->
+  row = Enum.slice(splits, 0..6)
+  |> Enum.reduce(rows, fn split, acc ->
     max = (Enum.count acc) - 1
     half = round(max / 2)
 
@@ -18,7 +19,8 @@ result = data
   end) |> List.first
 
   columns = for x <- 0..8, do: x
-  column = Enum.slice(splits, -3..-1) |> Enum.reduce(columns, fn split, acc ->
+  column = Enum.slice(splits, -3..-1)
+  |> Enum.reduce(columns, fn split, acc ->
     max = (Enum.count acc) - 1
     half = round(max / 2)
 
