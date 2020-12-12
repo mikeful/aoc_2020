@@ -12,8 +12,6 @@ defmodule SeatSimulator do
         row_range = max(0, seat_row - 1)..min(seat_row + 1, rows)
         column_range = max(0, seat_column - 1)..min(seat_column + 1, columns)
 
-        seat = seats[seat_row][seat_column]
-
         seat_coordinates = (for row <- row_range, column <- column_range, do: [row, column])
         |> Enum.reject(fn [row, column] -> row == seat_row and column == seat_column end)
 
@@ -26,6 +24,9 @@ defmodule SeatSimulator do
           end
         end)
         |> Enum.sum
+
+        # Check current seat and surrounding seats, return accumulator for reduce
+        seat = seats[seat_row][seat_column]
 
         case {seat, occupied_surrounding} do
           {"L", 0} -> {put_in(updated_seats[seat_row][seat_column], "#"), changes + 1}
@@ -54,6 +55,7 @@ seats = Enum.with_index(data)
   {index, Enum.with_index(row) |> Map.new(fn {column, index} -> {index, column} end)}
 end)
 
+# Run simulation until no changes and extract result
 result = SeatSimulator.step(seats, 1)
 |> Map.to_list
 |> Enum.map(fn {_index, row} -> Map.to_list(row) |> Enum.map(fn {_index, column} -> column end) end)
