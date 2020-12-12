@@ -12,10 +12,10 @@ defmodule SeatSimulator do
         row_range = max(0, seat_row - 1)..min(seat_row + 1, rows)
         column_range = max(0, seat_column - 1)..min(seat_column + 1, columns)
 
+        seat = seats[seat_row][seat_column]
+
         seat_coordinates = (for row <- row_range, column <- column_range, do: [row, column])
         |> Enum.reject(fn [row, column] -> row == seat_row and column == seat_column end)
-
-        seat = seats[seat_row][seat_column]
 
         occupied_surrounding = seat_coordinates
         |> Enum.map(fn [surround_row, surround_column] ->
