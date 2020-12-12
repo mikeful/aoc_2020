@@ -61,6 +61,3 @@ result = SeatSimulator.step(seats, 1)
 |> Enum.frequencies
 
 IO.inspect result
-
-# too high 3720
-# too low 2301
